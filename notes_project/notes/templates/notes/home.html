@@ -1,0 +1,7 @@
+<h1>Заметки</h1>
+<a href="{% url 'add_note' %}">Добавить заметку</a>
+<ul>
+  {% for note in notes %}
+    <li><strong>{{ note.title }}</strong>: {{ note.content }}</li>
+  {% endfor %}
+</ul>

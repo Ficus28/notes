@@ -1,0 +1,7 @@
+<h1>Добавить заметку</h1>
+<form method="POST">
+  {% csrf_token %}
+  <input type="text" name="title" placeholder="Заголовок"><br>
+  <textarea name="content" placeholder="Содержание"></textarea><br>
+  <button type="submit">Сохранить</button>
+</form>

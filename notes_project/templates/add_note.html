@@ -3,17 +3,31 @@
 {% block title %}Добавить заметку{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Добавить заметку</h1>
-<form method="POST">
-  {% csrf_token %}
-  <div class="mb-3">
-    <label class="form-label">Заголовок</label>
-    <input type="text" name="title" class="form-control" placeholder="Введите заголовок">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Содержание</label>
-    <textarea name="content" class="form-control" rows="4" placeholder="Введите текст"></textarea>
-  </div>
-  <button type="submit" class="btn btn-success">Сохранить</button>
+<h2 class="mb-4">📝 Новая заметка</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Заголовок</label>
+        {{ form.title|add_class:"form-control" }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Содержимое</label>
+        {{ form.content }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Цвет заметки</label>
+        {{ form.color|add_class:"form-select" }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Изображение (необязательно)</label>
+        {{ form.image|add_class:"form-control" }}
+    </div>
+
+    <button type="submit" class="btn btn-success">💾 Сохранить</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Назад</a>
 </form>
 {% endblock %}

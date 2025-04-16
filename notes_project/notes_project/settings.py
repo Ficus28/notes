@@ -38,9 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'notes',
+    'django_ckeditor_5',
 ]
 
-INSTALLED_APPS += ['ckeditor']
+
 
 
 MIDDLEWARE = [
@@ -125,7 +126,20 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = '/'
+LOGIN_URL = 'login'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+CKEDITOR_5_CUSTOM_CSS = 'path/to/your/custom.css'  # если хочешь стилизовать вывод
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': [
+            'heading', '|', 'bold', 'italic', 'link',
+            'bulletedList', 'numberedList', '|',
+            'blockQuote', 'imageUpload', 'insertTable',
+            'mediaEmbed', 'undo', 'redo'
+        ],
+        'language': 'ru',
+    }
+}

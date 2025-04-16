@@ -1,33 +1,43 @@
 {% extends 'base.html' %}
 
-{% block title %}Добавить заметку{% endblock %}
+{% block title %}{{ note.title|default:"Новая заметка" }}{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">📝 Новая заметка</h2>
+<div class="container mt-4">
+  <div class="card shadow rounded-4">
+    <div class="card-body">
+      <h2 class="card-title mb-4">
+        {% if note %}✏️ Редактировать{% else %}📝 Добавить{% endif %} заметку
+      </h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+          <label for="id_title" class="form-label">Заголовок</label>
+          {{ form.title }}
+        </div>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label class="form-label">Заголовок</label>
-        {{ form.title|add_class:"form-control" }}
+        <div class="mb-3">
+          <label for="id_content" class="form-label">Содержимое</label>
+          {{ form.content }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_image" class="form-label">Изображение (опционально)</label>
+          {{ form.image }}
+          {% if note.image %}
+            <div class="mt-2">
+              <img src="{{ note.image.url }}" class="img-thumbnail" style="max-height: 200px;" alt="Preview">
+            </div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-success">
+          💾 Сохранить
+        </button>
+        <a href="{% url 'home' %}" class="btn btn-secondary">↩️ Назад</a>
+      </form>
     </div>
-
-    <div class="mb-3">
-        <label class="form-label">Содержимое</label>
-        {{ form.content }}
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Цвет заметки</label>
-        {{ form.color|add_class:"form-select" }}
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Изображение (необязательно)</label>
-        {{ form.image|add_class:"form-control" }}
-    </div>
-
-    <button type="submit" class="btn btn-success">💾 Сохранить</button>
-    <a href="{% url 'home' %}" class="btn btn-secondary">Назад</a>
-</form>
+  </div>
+</div>
 {% endblock %}

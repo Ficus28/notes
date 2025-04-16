@@ -1,7 +1,7 @@
 <h1>Регистрация</h1>
 <form method="POST">
   {% csrf_token %}
-  <input name="login" placeholder="Логин"><br>
+  <input name="username" placeholder="Логин"><br>
   <input name="password" type="password" placeholder="Пароль"><br>
   <button type="submit">Зарегистрироваться</button>
 </form>

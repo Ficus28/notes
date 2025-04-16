@@ -1,7 +1,16 @@
-<h1>Заметки</h1>
-<a href="{% url 'add_note' %}">Добавить заметку</a>
-<ul>
+{% extends 'notes/base.html' %}
+
+{% block title %}Список заметок{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Мои заметки</h1>
+<a class="btn btn-primary mb-3" href="{% url 'add_note' %}">Добавить заметку</a>
+<ul class="list-group">
   {% for note in notes %}
-    <li><strong>{{ note.title }}</strong>: {{ note.content }}</li>
+    <li class="list-group-item">
+      <h5>{{ note.title }}</h5>
+      <p>{{ note.content }}</p>
+    </li>
   {% endfor %}
 </ul>
+{% endblock %}

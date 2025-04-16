@@ -1,7 +1,19 @@
-<h1>Добавить заметку</h1>
+{% extends 'notes/base.html' %}
+
+{% block title %}Добавить заметку{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Добавить заметку</h1>
 <form method="POST">
   {% csrf_token %}
-  <input type="text" name="title" placeholder="Заголовок"><br>
-  <textarea name="content" placeholder="Содержание"></textarea><br>
-  <button type="submit">Сохранить</button>
+  <div class="mb-3">
+    <label class="form-label">Заголовок</label>
+    <input type="text" name="title" class="form-control" placeholder="Введите заголовок">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Содержание</label>
+    <textarea name="content" class="form-control" rows="4" placeholder="Введите текст"></textarea>
+  </div>
+  <button type="submit" class="btn btn-success">Сохранить</button>
 </form>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактировать заметку{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Редактировать заметку</h1>
+<form method="POST" class="card p-4 shadow-sm" style="max-width: 600px;">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label for="title" class="form-label">Заголовок</label>
+    <input type="text" name="title" class="form-control" id="title" value="{{ note.title }}" required>
+  </div>
+  <div class="mb-3">
+    <label for="content" class="form-label">Содержание</label>
+    <textarea name="content" class="form-control" id="content" rows="5" required>{{ note.content }}</textarea>
+  </div>
+  <button type="submit" class="btn btn-success">Сохранить изменения</button>
+</form>
+{% endblock %}

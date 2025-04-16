@@ -5,12 +5,26 @@
 {% block content %}
 <h1 class="mb-4">Мои заметки</h1>
 <a class="btn btn-primary mb-3" href="{% url 'add_note' %}">Добавить заметку</a>
-<ul class="list-group">
-  {% for note in notes %}
-    <li class="list-group-item">
-      <h5>{{ note.title }}</h5>
-      <p>{{ note.content }}</p>
-    </li>
-  {% endfor %}
-</ul>
+
+{% if notes %}
+  <div class="row">
+    {% for note in notes %}
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ note.title }}</h5>
+            <p class="card-text">{{ note.content }}</p>
+            <a href="{% url 'edit_note' note.id %}" class="btn btn-sm btn-outline-primary">✏️ Редактировать</a>
+            <form action="{% url 'delete_note' note.id %}" method="post" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-danger">🗑️ Удалить</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>У вас пока нет заметок.</p>
+{% endif %}
 {% endblock %}

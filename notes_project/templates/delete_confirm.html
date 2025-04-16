@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Удалить заметку{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Подтвердите удаление</h1>
+<div class="card p-4 shadow-sm" style="max-width: 600px;">
+  <p>Вы уверены, что хотите удалить заметку <strong>{{ note.title }}</strong>?</p>
+  <form action="{% url 'delete_note' note.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Отменить</a>
+  </form>
+</div>
+{% endblock %}

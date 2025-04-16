@@ -1,30 +1,69 @@
 {% extends 'base.html' %}
 
-{% block title %}Список заметок{% endblock %}
+{% block title %}Заметки{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Мои заметки</h1>
-<a class="btn btn-primary mb-3" href="{% url 'add_note' %}">Добавить заметку</a>
 
-{% if notes %}
-  <div class="row">
+{% if user.is_authenticated %}
+  <h1 class="mb-4">Мои заметки</h1>
+  <a class="btn btn-success mb-3" href="{% url 'add_note' %}">➕ Добавить заметку</a>
+
+  {% if notes %}
     {% for note in notes %}
-      <div class="col-md-4 mb-3">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ note.title }}</h5>
-            <p class="card-text">{{ note.content }}</p>
-            <a href="{% url 'edit_note' note.id %}" class="btn btn-sm btn-outline-primary">✏️ Редактировать</a>
-            <form action="{% url 'delete_note' note.id %}" method="post" style="display: inline;">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-sm btn-outline-danger">🗑️ Удалить</button>
-            </form>
-          </div>
+      <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ note.title }}</h5>
+          <p class="card-text">{{ note.content }}</p>
+          <a href="{% url 'edit_note' note.id %}" class="btn btn-sm btn-outline-primary">✏️ Редактировать</a>
+          <form action="{% url 'delete_note' note.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-outline-danger">🗑️ Удалить</button>
+          </form>
         </div>
       </div>
     {% endfor %}
-  </div>
+  {% else %}
+    <p>У вас пока нет заметок. Создайте первую!</p>
+  {% endif %}
+
 {% else %}
-  <p>У вас пока нет заметок.</p>
+  <!-- 🔒 Гостевой режим -->
+  <div class="text-center">
+    <h1 class="mb-4">Добро пожаловать в Заметки 📝</h1>
+    <p class="lead">Сохраняйте свои идеи, планы и вдохновение в одном месте.</p>
+    <a href="{% url 'register' %}" class="btn btn-success btn-lg mt-3">🚀 Зарегистрироваться</a>
+    <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg mt-3 ms-2">🔑 Войти</a>
+  </div>
+
+  <hr class="my-5">
+
+  <h3 class="mb-4 text-center">📌 Примеры заметок</h3>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Идеи для стартапа</h5>
+          <p class="card-text">Приложение для планирования путешествий по кафе и барам 😄</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Список книг 📚</h5>
+          <p class="card-text">— «Атлант расправил плечи»<br>— «Тонкое искусство пофигизма»<br>— «Гарри Поттер»</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Планы на неделю 🗓</h5>
+          <p class="card-text">— Закончить pet-проект<br>— Прочитать статью по Django<br>— Купиться торт 🎂</p>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endif %}
+
 {% endblock %}

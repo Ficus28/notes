@@ -9,4 +9,5 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('ckeditor5/image_upload/', views.custom_ckeditor_upload_view, name='ckeditor5_upload'),
 ]

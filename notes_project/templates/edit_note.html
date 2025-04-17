@@ -6,6 +6,21 @@
 {% block extra_head %}
     {{ form.media }}
     <link rel="stylesheet" href="{% static 'css/ckeditor_custom.css' %}">
+
+    <script>
+        // Передаём CSRF токен для CKEditor5
+        window.CKEDITOR_CSRF_TOKEN = (function () {
+            const name = 'csrftoken';
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(name + '=')) {
+                    return decodeURIComponent(cookie.substring(name.length + 1));
+                }
+            }
+            return '';
+        })();
+    </script>
 {% endblock %}
 
 {% block content %}

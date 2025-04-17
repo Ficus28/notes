@@ -162,10 +162,12 @@ CKEDITOR_5_CONFIGS = {
                 "mergeTableCells"
             ]
         },
-        "upload": {
+        "simpleUpload": {
+            "uploadUrl": "/ckeditor5/image_upload/",
             "headers": {
                 "X-CSRFToken": "{{ csrf_token }}"
             }
         }
     }
 }
+

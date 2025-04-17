@@ -3,9 +3,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
-
 from .models import Note
 from .forms import NoteForm
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse, HttpResponseForbidden
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+import os
 
 
 def home(request):
@@ -94,3 +98,17 @@ def delete_note(request, note_id):
         messages.success(request, 'Заметка удалена.')
         return redirect('home')
     return render(request, 'delete_confirm.html', {'note': note})
+
+@csrf_exempt
+@login_required
+def custom_ckeditor_upload_view(request):
+    if request.method == 'POST' and request.FILES.get('upload'):
+        upload = request.FILES['upload']
+        file_path = os.path.join('uploads', upload.name)
+        saved_path = default_storage.save(file_path, ContentFile(upload.read()))
+
+        return JsonResponse({
+            "url": default_storage.url(saved_path)
+        })
+
+    return HttpResponseForbidden("Не удалось загрузить изображение.")

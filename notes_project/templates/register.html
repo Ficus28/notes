@@ -2,26 +2,27 @@
 {% block title %}Регистрация{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Регистрация</h2>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+  <form method="POST" class="card p-4 shadow-sm rounded-4 w-100" style="max-width: 400px;">
+    <h2 class="mb-4 text-center">Регистрация</h2>
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="username" class="form-label">Логин</label>
+      <input type="text" name="username" class="form-control" id="username" placeholder="Введите логин" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" name="email" class="form-control" id="email" placeholder="Введите email" required>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Пароль</label>
+      <input type="password" name="password" class="form-control" id="password" placeholder="Введите пароль" required>
+    </div>
+    <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
 
-<form method="POST" class="card p-4 shadow-sm" style="max-width: 400px;">
-  {% csrf_token %}
-  <div class="mb-3">
-    <label for="username" class="form-label">Логин</label>
-    <input type="text" name="username" class="form-control" id="username" placeholder="Введите логин" required>
-  </div>
-  <div class="mb-3">
-    <label for="email" class="form-label">Email</label>
-    <input type="email" name="email" class="form-control" id="email" placeholder="Введите email" required>
-  </div>
-  <div class="mb-3">
-    <label for="password" class="form-label">Пароль</label>
-    <input type="password" name="password" class="form-control" id="password" placeholder="Введите пароль" required>
-  </div>
-  <button type="submit" class="btn btn-success">Зарегистрироваться</button>
-
-  {% if error %}
-    <div class="alert alert-danger mt-3">{{ error }}</div>
-  {% endif %}
-</form>
+    {% if error %}
+      <div class="alert alert-danger mt-3">{{ error }}</div>
+    {% endif %}
+  </form>
+</div>
 {% endblock %}

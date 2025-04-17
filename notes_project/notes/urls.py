@@ -10,4 +10,6 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('ckeditor5/image_upload/', views.custom_ckeditor_upload_view, name='ckeditor5_upload'),
+    path('profile/', views.profile_view, name='profile'),
+
 ]

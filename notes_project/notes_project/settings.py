@@ -131,15 +131,20 @@ LOGIN_URL = 'login'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-CKEDITOR_5_CUSTOM_CSS = 'path/to/your/custom.css'  # если хочешь стилизовать вывод
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
+
+
+CKEDITOR_5_CUSTOM_CSS = 'css/ckeditor_custom.css'
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': [
             'heading', '|', 'bold', 'italic', 'link',
             'bulletedList', 'numberedList', '|',
             'blockQuote', 'imageUpload', 'insertTable',
-            'mediaEmbed', 'undo', 'redo'
+            'mediaEmbed', '|', 'undo', 'redo',
+            'imageStyle:inline', 'imageStyle:side', 'imageTextAlternative'
         ],
         'language': 'ru',
     }
 }
+

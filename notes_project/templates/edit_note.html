@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ note.title|default:"Новая заметка" }}{% endblock %}
+
+{% block extra_head %}
+{{ form.media }}
+{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
@@ -32,9 +37,7 @@
           {% endif %}
         </div>
 
-        <button type="submit" class="btn btn-success">
-          💾 Сохранить
-        </button>
+        <button type="submit" class="btn btn-success">💾 Сохранить</button>
         <a href="{% url 'home' %}" class="btn btn-secondary">↩️ Назад</a>
       </form>
     </div>

@@ -128,23 +128,44 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'
 
+# Для загрузки файлов
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
 
+CKEDITOR_5_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_5_UPLOAD_PATH = "uploads/"
+CKEDITOR_5_IMAGE_BACKEND = "pillow"
 
-CKEDITOR_5_CUSTOM_CSS = 'css/ckeditor_custom.css'
 CKEDITOR_5_CONFIGS = {
-    'default': {
-        'toolbar': [
-            'heading', '|', 'bold', 'italic', 'link',
-            'bulletedList', 'numberedList', '|',
-            'blockQuote', 'imageUpload', 'insertTable',
-            'mediaEmbed', '|', 'undo', 'redo',
-            'imageStyle:inline', 'imageStyle:side', 'imageTextAlternative'
+    "default": {
+        "toolbar": [
+            "heading", "|", "bold", "italic", "link",
+            "bulletedList", "numberedList", "|",
+            "blockQuote", "insertTable", "mediaEmbed", "imageUpload",
+            "|", "undo", "redo",
         ],
-        'language': 'ru',
+        "language": "ru",
+        "image": {
+            "toolbar": [
+                "imageTextAlternative",
+                "imageStyle:inline",
+                "imageStyle:block",
+                "imageStyle:side"
+            ]
+        },
+        "table": {
+            "contentToolbar": [
+                "tableColumn",
+                "tableRow",
+                "mergeTableCells"
+            ]
+        },
+        "upload": {
+            "headers": {
+                "X-CSRFToken": "{{ csrf_token }}"
+            }
+        }
     }
 }
-

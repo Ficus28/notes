@@ -4,7 +4,8 @@
 {% block title %}{{ note.title|default:"Новая заметка" }}{% endblock %}
 
 {% block extra_head %}
-{{ form.media }}
+    {{ form.media }}
+    <link rel="stylesheet" href="{% static 'css/ckeditor_custom.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -14,9 +15,10 @@
       <h2 class="card-title mb-4">
         {% if note %}✏️ Редактировать{% else %}📝 Добавить{% endif %} заметку
       </h2>
+
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        
+
         <div class="mb-3">
           <label for="id_title" class="form-label">Заголовок</label>
           {{ form.title }}

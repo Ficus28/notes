@@ -6,6 +6,8 @@ from django.contrib import messages
 from .models import Note
 from .forms import NoteForm
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse, HttpResponseForbidden
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
@@ -112,3 +114,27 @@ def custom_ckeditor_upload_view(request):
         })
 
     return HttpResponseForbidden("Не удалось загрузить изображение.")
+
+@login_required
+def profile_view(request):
+    user = request.user
+    password_form = PasswordChangeForm(user)
+    
+    if request.method == 'POST':
+        if 'change_email' in request.POST:
+            new_email = request.POST.get('email')
+            if new_email and new_email != user.email:
+                user.email = new_email
+                user.save()
+                messages.success(request, 'Email обновлён.')
+        elif 'change_password' in request.POST:
+            password_form = PasswordChangeForm(user, request.POST)
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Пароль успешно изменён.')
+
+    return render(request, 'profile.html', {
+        'user': user,
+        'password_form': password_form,
+    })

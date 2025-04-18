@@ -8,12 +8,16 @@
   <h1 class="mb-4">Мои заметки</h1>
   <a class="btn btn-success mb-3" href="{% url 'add_note' %}">➕ Добавить заметку</a>
 
-  {% if notes %}
-    {% for note in notes %}
+  {% if page_obj.has_other_pages %}
+    <p class="text-muted">Всего: {{ page_obj.paginator.count }} заметок</p>
+  {% endif %}
+
+  {% if page_obj %}
+    {% for note in page_obj %}
       <div class="card mb-3 shadow-sm">
         <div class="card-body">
           <h5 class="card-title">{{ note.title }}</h5>
-          <p class="card-text">{{ note.content }}</p>
+          <p class="card-text">{{ note.content|truncatewords_html:40|safe }}</p>
           <a href="{% url 'edit_note' note.id %}" class="btn btn-sm btn-outline-primary">✏️ Редактировать</a>
           <form action="{% url 'delete_note' note.id %}" method="post" style="display: inline;">
             {% csrf_token %}
@@ -22,6 +26,40 @@
         </div>
       </div>
     {% endfor %}
+
+    <!-- 🔽 Пагинация -->
+    <nav>
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">« Назад</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <span class="page-link">« Назад</span>
+          </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперёд »</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <span class="page-link">Вперёд »</span>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+
   {% else %}
     <p>У вас пока нет заметок. Создайте первую!</p>
   {% endif %}

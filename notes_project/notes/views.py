@@ -11,21 +11,25 @@ from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse, HttpResponseForbidden
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.core.paginator import Paginator
 import os
 
 
 def home(request):
     if request.user.is_authenticated:
-        notes = Note.objects.filter(user=request.user).order_by('-created_at')
-        return render(request, 'home.html', {'notes': notes})
+        notes_list = Note.objects.filter(user=request.user).order_by('-created_at')
+        paginator = Paginator(notes_list, 5)  # 5 заметок на страницу
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(request, 'home.html', {'page_obj': page_obj})
     else:
-        # Гостевые (демо) заметки
         guest_notes = [
             {"title": "Добро пожаловать!", "content": "Зарегистрируйтесь, чтобы сохранять свои заметки."},
             {"title": "Пример заметки", "content": "Это демо-заметка. Зарегистрируйтесь, чтобы создать свою!"},
         ]
         return render(request, 'home.html', {'notes': guest_notes, 'guest_mode': True})
-
 
 def register_view(request):
     if request.method == 'POST':

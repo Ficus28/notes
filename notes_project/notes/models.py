@@ -18,3 +18,8 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    class UserSessionLog(models.Model):
+        user = models.ForeignKey(User, on_delete=models.CASCADE)
+        login_time = models.DateTimeField(null=True, blank=True)
+        logout_time = models.DateTimeField(null=True, blank=True)

@@ -1,9 +1,8 @@
-# admin.py
 from django.contrib import admin
 from .models import Note
 
 class NoteAdmin(admin.ModelAdmin):
-    list_display = ('title', 'user', 'created_at')  # или твои поля
+    list_display = ('title', 'user', 'created_at') 
     list_filter = ('user',)
 
     def get_queryset(self, request):

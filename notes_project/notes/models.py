@@ -5,7 +5,7 @@ from django_ckeditor_5.fields import CKEditor5Field
 class Note(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    content = CKEditor5Field('Content', config_name='default')  # Используем CKEditor5Field
+    content = CKEditor5Field('Content', config_name='default')  
     image = models.ImageField(upload_to='note_images/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -19,7 +19,10 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
-    class UserSessionLog(models.Model):
-        user = models.ForeignKey(User, on_delete=models.CASCADE)
-        login_time = models.DateTimeField(null=True, blank=True)
-        logout_time = models.DateTimeField(null=True, blank=True)
+class UserSessionLog(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    login_time = models.DateTimeField(auto_now_add=True)
+    logout_time = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} | {self.login_time} - {self.logout_time or '...'}"

@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ note.title|default:"Новая заметка" }}{% endblock %}
+{% block title %}Редактировать{% endblock %}
 
 {% block extra_head %}
     {{ form.media }}
     <link rel="stylesheet" href="{% static 'css/ckeditor_custom.css' %}">
-
     <script>
-        // Передаём CSRF токен для CKEditor5
         window.CKEDITOR_CSRF_TOKEN = (function () {
             const name = 'csrftoken';
             const cookies = document.cookie.split(';');
@@ -27,31 +25,25 @@
 <div class="container mt-4">
   <div class="card shadow rounded-4">
     <div class="card-body">
-      <h2 class="card-title mb-4">
-        {% if note %}✏️ Редактировать{% else %}📝 Добавить{% endif %} заметку
-      </h2>
+      <h2 class="card-title mb-4">✏️ Редактировать заметку</h2>
 
-      <form method="post" enctype="multipart/form-data">
+      <form method="post">
         {% csrf_token %}
 
         <div class="mb-3">
           <label for="id_title" class="form-label">Заголовок</label>
           {{ form.title }}
+          {% for error in form.title.errors %}
+            <div class="text-danger small mt-1">{{ error }}</div>
+          {% endfor %}
         </div>
 
         <div class="mb-3">
           <label for="id_content" class="form-label">Содержимое</label>
           {{ form.content }}
-        </div>
-
-        <div class="mb-3">
-          <label for="id_image" class="form-label">Изображение (опционально)</label>
-          {{ form.image }}
-          {% if note.image %}
-            <div class="mt-2">
-              <img src="{{ note.image.url }}" class="img-thumbnail" style="max-height: 200px;" alt="Preview">
-            </div>
-          {% endif %}
+          {% for error in form.content.errors %}
+            <div class="text-danger small mt-1">{{ error }}</div>
+          {% endfor %}
         </div>
 
         <button type="submit" class="btn btn-success">💾 Сохранить</button>

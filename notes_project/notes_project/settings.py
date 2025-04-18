@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'notes',
     'django_ckeditor_5',
+    'notes.apps.NotesConfig',
    
 ]
 
@@ -133,7 +133,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'
 
-# Для загрузки файлов
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 

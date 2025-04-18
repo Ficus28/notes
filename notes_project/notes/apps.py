@@ -5,5 +5,5 @@ class NotesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'notes'
 
-def ready(self):
-    import notes.signals
+    def ready(self):
+        import notes.signals
